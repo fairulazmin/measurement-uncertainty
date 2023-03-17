@@ -1,16 +1,31 @@
 'use client'
 
-import { useReducer, useState } from 'react'
+import { useReducer } from 'react'
 import MuRow from './muRow'
+import { Row } from '@/typedef'
 
-const reducer = (state, action) => {
+const reducer = (state: Row[], action: any) => {
   switch (action.type) {
     case 'sources': {
-      console.log('state: ', state, 'action id: ', action.id)
-      const newRow = state[action.id]
-      console.log('newRow: ', newRow)
-      // const newState = state.splice(action.id, 1, newRow)
-      return state
+      const newState = [...state]
+      const newRow = { ...newState[action.id], sources: action.sources }
+      newState.splice(action.id, 1, newRow)
+      return newState
+    }
+    case 'value': {
+      const newState = [...state]
+      const newRow = { ...newState[action.id], value: action.value }
+      newState.splice(action.id, 1, newRow)
+      return newState
+    }
+    case 'distribution': {
+      const newState = [...state]
+      const newRow = {
+        ...newState[action.id],
+        distribution: action.distribution,
+      }
+      newState.splice(action.id, 1, newRow)
+      return newState
     }
     default:
       return state
@@ -68,8 +83,8 @@ const MuTable = () => {
           </tr>
         </thead>
         <tbody>
-          {state.map((row, id: number) => (
-            <MuRow key={id} row={row} dispatch={dispatch} />
+          {state.map((row: Row, id: number) => (
+            <MuRow key={id} row={row} dispatch={dispatch} id={id} />
           ))}
         </tbody>
       </table>

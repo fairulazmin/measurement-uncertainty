@@ -1,4 +1,14 @@
-const MuRow = ({ key, row, dispatch }: { key: number }) => {
+import { Row } from '@/typedef'
+
+const MuRow = ({
+  id,
+  row,
+  dispatch,
+}: {
+  id: number
+  row: Row
+  dispatch: any
+}) => {
   const { sources, value, distribution, divisor, ci, ui, vi, percent, index } =
     row
 
@@ -9,9 +19,8 @@ const MuRow = ({ key, row, dispatch }: { key: number }) => {
           className=' w-full focus:ring-violet-300 focus:ring-2 rounded-lg border-none'
           type='text'
           value={sources}
-          onClick={() => console.log('Click sources at id: ', key)}
           onChange={(e) =>
-            dispatch({ type: 'sources', id: key, sources: e.target.value })
+            dispatch({ id, type: 'sources', sources: e.target.value })
           }
         />
       </td>
@@ -20,10 +29,26 @@ const MuRow = ({ key, row, dispatch }: { key: number }) => {
           className='text-center w-full focus:ring-violet-300 focus:ring-2 rounded-lg border-none'
           type='number'
           value={value}
-          onChange={(e) => console.log(e.target.value)}
+          onChange={(e) =>
+            dispatch({ id, type: 'value', value: e.target.value })
+          }
         />
       </td>
-      <td className='text-center p-3'>{distribution}</td>
+      <td className='text-center p-3'>
+        <select
+          value={distribution}
+          className='text-center border-none rounded-lg'
+          onChange={(e) =>
+            dispatch({ id, type: 'distribution', distribution: e.target.value })
+          }
+        >
+          <option value='Normal'>Normal</option>
+          <option value='T-distribution'>T-distribution</option>
+          <option value='Rectangular'>Rectangular</option>
+          <option value='Triangular'>Triangular</option>
+          <option value='U-shaped'>U-shaped</option>
+        </select>
+      </td>
       <td className='text-center p-3'>{divisor}</td>
       <td className='text-center p-3'>{ci}</td>
       <td className='text-center p-3'>{ui}</td>

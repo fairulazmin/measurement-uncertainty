@@ -1,10 +1,24 @@
 'use client'
 
-import { useState } from 'react'
+import { useReducer, useState } from 'react'
 import MuRow from './muRow'
 
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'sources': {
+      console.log('state: ', state, 'action id: ', action.id)
+      const newRow = state[action.id]
+      console.log('newRow: ', newRow)
+      // const newState = state.splice(action.id, 1, newRow)
+      return state
+    }
+    default:
+      return state
+  }
+}
+
 const MuTable = () => {
-  const [state, setState] = useState([
+  const initialArg = [
     {
       sources: 'Calibration of the standard gauge block',
       value: 30,
@@ -27,7 +41,9 @@ const MuTable = () => {
       percent: 20,
       index: 2,
     },
-  ])
+  ]
+
+  const [state, dispatch] = useReducer(reducer, initialArg)
 
   return (
     <div className='border overflow-auto rounded-xl shadow-lg'>
@@ -52,8 +68,8 @@ const MuTable = () => {
           </tr>
         </thead>
         <tbody>
-          {state.map((row) => (
-            <MuRow row={row} />
+          {state.map((row, id: number) => (
+            <MuRow key={id} row={row} dispatch={dispatch} />
           ))}
         </tbody>
       </table>

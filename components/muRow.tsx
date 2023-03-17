@@ -1,4 +1,4 @@
-const MuRow = ({ row }) => {
+const MuRow = ({ key, row, dispatch }: { key: number }) => {
   const { sources, value, distribution, divisor, ci, ui, vi, percent, index } =
     row
 
@@ -9,6 +9,10 @@ const MuRow = ({ row }) => {
           className=' w-full focus:ring-violet-300 focus:ring-2 rounded-lg border-none'
           type='text'
           value={sources}
+          onClick={() => console.log('Click sources at id: ', key)}
+          onChange={(e) =>
+            dispatch({ type: 'sources', id: key, sources: e.target.value })
+          }
         />
       </td>
       <td className='p-3'>
@@ -16,6 +20,7 @@ const MuRow = ({ row }) => {
           className='text-center w-full focus:ring-violet-300 focus:ring-2 rounded-lg border-none'
           type='number'
           value={value}
+          onChange={(e) => console.log(e.target.value)}
         />
       </td>
       <td className='text-center p-3'>{distribution}</td>

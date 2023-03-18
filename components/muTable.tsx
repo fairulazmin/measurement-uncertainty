@@ -1,10 +1,11 @@
 'use client'
 
 import { useReducer } from 'react'
+import MuHead from './muHead'
 import MuRow from './muRow'
-import { Row } from '@/typedef'
+import { Row, Reducer } from '@/typedef'
 
-const reducer = (state: Row[], action: any) => {
+const reducer = (state: Row[], action: Reducer) => {
   switch (action.type) {
     case 'sources': {
       const newState = [...state]
@@ -20,9 +21,38 @@ const reducer = (state: Row[], action: any) => {
     }
     case 'distribution': {
       const newState = [...state]
+      const { id, distribution } = action
+      const divisor =
+        distribution === 'Rectangular'
+          ? '√3'
+          : distribution === 'Triangular'
+          ? '√6'
+          : distribution === 'U-shaped'
+          ? '√2'
+          : action.divisor
       const newRow = {
-        ...newState[action.id],
-        distribution: action.distribution,
+        ...newState[id],
+        distribution,
+        divisor,
+      }
+      newState.splice(action.id, 1, newRow)
+      return newState
+    }
+    case 'divisor': {
+      const newState = [...state]
+      const { id, divisor } = action
+      const distribution =
+        divisor === '√3'
+          ? 'Rectangular'
+          : divisor === '√6'
+          ? 'Triangular'
+          : divisor === '√2'
+          ? 'U-shaped'
+          : action.distribution
+      const newRow = {
+        ...newState[id],
+        distribution,
+        divisor,
       }
       newState.splice(action.id, 1, newRow)
       return newState
@@ -61,27 +91,9 @@ const MuTable = () => {
   const [state, dispatch] = useReducer(reducer, initialArg)
 
   return (
-    <div className='border overflow-auto rounded-xl shadow-lg'>
+    <div className='border overflow-auto rounded-xl shadow-lg select-none'>
       <table className='w-full table-auto'>
-        <thead className='h-14 bg-gray-50 border-b-2 border-gray-200'>
-          <tr className='text-lg font-semibold text-center tracking-wide italic'>
-            <th>Sources of uncertainty</th>
-            <th className='w-28'>± Value</th>
-            <th className='w-20'>Probability distribution</th>
-            <th>Divisor</th>
-            <th className='w-20'>
-              c<sub>i</sub>
-            </th>
-            <th className='w-20'>
-              u<sub>i</sub>
-            </th>
-            <th className='w-20'>
-              v<sub>i</sub> or v<sub>eff</sub>
-            </th>
-            <th className='w-20'>%</th>
-            <th className='w-20'>Index</th>
-          </tr>
-        </thead>
+        <MuHead />
         <tbody>
           {state.map((row: Row, id: number) => (
             <MuRow key={id} row={row} dispatch={dispatch} id={id} />

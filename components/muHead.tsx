@@ -1,5 +1,3 @@
-import ToolTips from './tooltips'
-
 const MuHead = () => {
   return (
     <thead className='h-14 bg-gray-50 border-b-2 border-gray-200'>
@@ -19,6 +17,7 @@ const MuHead = () => {
         </th>
         <th className='w-20'>%</th>
         <th className='w-20'>Index</th>
+        <th></th>
       </tr>
     </thead>
   )

@@ -1,4 +1,5 @@
 import { Row } from '@/typedef'
+import { RiDeleteBin6Line } from 'react-icons/ri'
 
 const MuRow = ({
   id,
@@ -78,6 +79,14 @@ const MuRow = ({
       <td className='text-center p-2'>{vi}</td>
       <td className='text-center p-2'>{percent}</td>
       <td className='text-center p-2'>{index}</td>
+      <td>
+        <button
+          className='p-2 rounded hover:bg-red-500 hover:text-white text-red-500'
+          onClick={() => dispatch({ id, type: 'delete' })}
+        >
+          <RiDeleteBin6Line />
+        </button>
+      </td>
     </tr>
   )
 }

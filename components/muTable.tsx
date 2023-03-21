@@ -4,67 +4,80 @@ import { useReducer } from 'react'
 import MuHead from './muHead'
 import MuRow from './muRow'
 import { Row, Reducer } from '@/typedef'
-import { MdAdd } from 'react-icons/md'
 
 const reducer = (state: Row[], action: Reducer) => {
   switch (action.type) {
-    case 'sources': {
+    case 'SOURCES': {
+      const { id, payload } = action
       const newState = [...state]
-      const newRow = { ...newState[action.id], sources: action.sources }
-      newState.splice(action.id, 1, newRow)
+      const newRow = { ...newState[id], sources: payload }
+      newState.splice(id, 1, newRow)
       return newState
     }
-    case 'value': {
+    case 'VALUE': {
+      const { id, payload } = action
       const newState = [...state]
-      const newRow = { ...newState[action.id], value: action.value }
-      newState.splice(action.id, 1, newRow)
+      const newRow = { ...newState[action.id], value: payload }
+      newState.splice(id, 1, newRow)
       return newState
     }
-    case 'distribution': {
+    case 'DISTRIBUTION': {
+      const { id, payload } = action
       const newState = [...state]
-      const { id, distribution } = action
       const divisor =
-        distribution === 'Rectangular'
+        payload === 'Rectangular'
           ? '√3'
-          : distribution === 'Triangular'
+          : payload === 'Triangular'
           ? '√6'
-          : distribution === 'U-shaped'
+          : payload === 'U-shaped'
           ? '√2'
-          : action.divisor
+          : payload
       const newRow = {
         ...newState[id],
-        distribution,
+        distribution: payload,
         divisor,
       }
       newState.splice(action.id, 1, newRow)
       return newState
     }
-    case 'divisor': {
+    case 'DIVISOR': {
+      const { id, payload } = action
       const newState = [...state]
-      const { id, divisor } = action
       const distribution =
-        divisor === '√3'
+        payload === '√3'
           ? 'Rectangular'
-          : divisor === '√6'
+          : payload === '√6'
           ? 'Triangular'
-          : divisor === '√2'
+          : payload === '√2'
           ? 'U-shaped'
-          : action.distribution
+          : payload
       const newRow = {
         ...newState[id],
         distribution,
-        divisor,
+        divisor: payload,
       }
       newState.splice(action.id, 1, newRow)
       return newState
     }
-    case 'delete': {
+    case 'DELETE': {
       const newState = [...state]
       newState.splice(action.id, 1)
       return newState
     }
-    case 'add': {
-      const newState = [...state,{sources:"",value:0, distribution: 'Normal', divisor:0, ui:0, vi:0, percent:0, index:0 }]
+    case 'ADD': {
+      const newState = [
+        ...state,
+        {
+          sources: '',
+          value: '',
+          distribution: '',
+          divisor: '',
+          ui: '',
+          vi: '',
+          percent: '',
+          index: '',
+        },
+      ]
       return newState
     }
     default:
@@ -113,8 +126,24 @@ const MuTable = () => {
         </table>
       </div>
 
-      <button className='space-x-2 flex items-center bg-green-600 px-4 py-2 font-semibold text-white mt-4 rounded-lg hover:bg-green-400 active:bg-green-700' onClick={() => dispatch({type:"add"})}>
-        <MdAdd />
+      <button
+        className='space-x-2 flex items-center bg-green-600 px-4 py-2 font-semibold text-white mt-4 rounded-lg hover:bg-green-400 active:bg-green-700'
+        onClick={() => dispatch({ type: 'ADD' })}
+      >
+        <svg
+          xmlns='http://www.w3.org/2000/svg'
+          fill='none'
+          viewBox='0 0 24 24'
+          strokeWidth='1.5'
+          stroke='currentColor'
+          className='w-6 h-6'
+        >
+          <path
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            d='M12 4.5v15m7.5-7.5h-15'
+          />
+        </svg>
         <span>Source</span>
       </button>
     </>

@@ -1,8 +1,8 @@
 export type Row = {
   sources: string
-  value: number
+  value: string
   distribution: string
-  divisor: number | '√2' | '√3' | '√6'
+  divisor: string | '√2' | '√3' | '√6'
   ci: number
   ui: number
   vi: number | '∞'
@@ -10,7 +10,18 @@ export type Row = {
   index: number
 }
 
-export type Reducer = Row & {
+type ActionInput = {
   id: number
-  type: string
+  type: 'SOURCES' | 'VALUE' | 'DISTRIBUTION' | 'DIVISOR'
+  payload: string
 }
+
+type ActionDelete = {
+  id: number
+  type: 'DELETE'
+}
+type ActionAdd = {
+  type: 'ADD'
+}
+
+export type Reducer = ActionInput | ActionDelete | ActionAdd

@@ -1,6 +1,14 @@
 import { Row, Reducer } from '@/typedef'
 
-const MuRow = ({ id, row, dispatch }) => {
+const MuRow = ({
+  id,
+  row,
+  dispatch,
+}: {
+  id: number
+  row: Row
+  dispatch: Reducer
+}) => {
   const { sources, value, distribution, divisor, ci, ui, vi, percent, index } =
     row
 

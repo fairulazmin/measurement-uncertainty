@@ -17,7 +17,7 @@ const reducer = (state: Row[], action: Reducer) => {
     case 'VALUE': {
       const { id, payload } = action
       const newState = [...state]
-      const newRow = { ...newState[action.id], value: payload }
+      const newRow = { ...newState[action.id], value: Number(payload) }
       newState.splice(id, 1, newRow)
       return newState
     }
@@ -34,7 +34,7 @@ const reducer = (state: Row[], action: Reducer) => {
           : payload
       const newRow = {
         ...newState[id],
-        distribution: payload,
+        distribution: payload || 'Normal',
         divisor,
       }
       newState.splice(action.id, 1, newRow)
@@ -72,6 +72,7 @@ const reducer = (state: Row[], action: Reducer) => {
           value: '',
           distribution: '',
           divisor: '',
+          ci: '',
           ui: '',
           vi: '',
           percent: '',

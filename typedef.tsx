@@ -1,13 +1,18 @@
 export type Row = {
-  sources: string
-  value: string
-  distribution: string
-  divisor: string | '√2' | '√3' | '√6'
-  ci: number
-  ui: number
+  sources: string | ''
+  value: number | ''
+  distribution:
+    | 'Normal'
+    | 'T-distribution'
+    | 'Rectangular'
+    | 'Triangular'
+    | 'U-shaped'
+  divisor: number | '√2' | '√3' | '√6'
+  ci: number | ''
+  ui: number | ''
   vi: number | '∞'
-  percent: number
-  index: number
+  percent: number | ''
+  index: number | ''
 }
 
 type ActionInput = {
